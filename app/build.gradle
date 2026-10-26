@@ -1,0 +1,43 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'id.oprek.tvlauncher'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "id.oprek.tvlauncher"
+        minSdk 24
+        targetSdk 34
+        versionCode 2
+        versionName "1.2"
+    }
+
+    // Tanda tangan tetap (kunci pribadi untuk launcher ini saja).
+    // Dengan ini, setiap build dari GitHub/Android Studio memakai tanda tangan yang sama,
+    // sehingga "adb install -r" bisa langsung menimpa versi sebelumnya.
+    signingConfigs {
+        fixed {
+            storeFile file('launcher.keystore')
+            storePassword 'android'
+            keyAlias 'launcher'
+            keyPassword 'android'
+        }
+    }
+
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.fixed
+        }
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.fixed
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
